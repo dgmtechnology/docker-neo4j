@@ -17,6 +17,11 @@ RUN curl --fail --silent --show-error --location --remote-name ${NEO4J_URI} \
     && rm ${NEO4J_TARBALL} \
     && mv /var/lib/neo4j/data /data \
     && ln -s /data /var/lib/neo4j/data \
+    && curl http://products.graphaware.com/download/framework-server-community/latest -Lo graphaware-server-community-all-3.2.1.51.jar \
+    && curl http://products.graphaware.com/download/uuid/latest -Lo graphaware-uuid-3.2.1.51.14.jar \
+    && mv graphaware*jar /var/lib/neo4j/plugins \
+    && echo "com.graphaware.runtime.enabled=true" >> /var/lib/neo4j/conf/neo4j.conf \
+    && echo "com.graphaware.module.UIDM.1=com.graphaware.module.uuid.UuidBootstrapper" >> /var/lib/neo4j/conf/neo4j.conf \
     && apk del curl
 
 WORKDIR /var/lib/neo4j
